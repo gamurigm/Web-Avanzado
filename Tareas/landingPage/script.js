@@ -1,37 +1,37 @@
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-const sunIcon = themeToggle.querySelector('.fa-sun');
-const moonIcon = themeToggle.querySelector('.fa-moon');
+const botonTema = document.getElementById('theme-toggle');
+const cuerpo = document.body;
+const iconoSol = botonTema.querySelector('.fa-sun');
+const iconoLuna = botonTema.querySelector('.fa-moon');
 
-// Función para aplicar el tema
-const applyTheme = (theme) => {
-    if (theme === 'dark') {
-        body.classList.add('dark-mode');
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'inline';
-        themeToggle.setAttribute('aria-label', 'Cambiar a tema claro');
+const aplicarTema = (tema) => {
+    if (tema === 'oscuro') {
+        cuerpo.classList.add('dark-mode');
+        iconoSol.style.display = 'none';
+        iconoLuna.style.display = 'inline';
     } else {
-        body.classList.remove('dark-mode');
-        sunIcon.style.display = 'inline';
-        moonIcon.style.display = 'none';
-        themeToggle.setAttribute('aria-label', 'Cambiar a tema oscuro');
+        cuerpo.classList.remove('dark-mode');
+        iconoSol.style.display = 'inline';
+        iconoLuna.style.display = 'none';
     }
 };
 
-// Función para cambiar el tema y guardarlo
-const toggleTheme = () => {
-    const currentTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-    applyTheme(currentTheme);
-    localStorage.setItem('theme', currentTheme); // Guardar preferencia
+const cambiarTema = () => {
+    const temaActual = cuerpo.classList.contains('dark-mode') ? 'claro' : 'oscuro';
+    aplicarTema(temaActual);
+    localStorage.setItem('tema', temaActual);
 };
 
-// Event Listener para el botón
-themeToggle.addEventListener('click', toggleTheme);
+botonTema.addEventListener('click', cambiarTema);
 
-// Cargar el tema guardado al iniciar o detectar preferencia del sistema
 document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const temaGuardado = localStorage.getItem('tema');
+    const prefiereOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (temaGuardado) {
+        aplicarTema(temaGuardado);
+    } else if (prefiereOscuro) {
+        aplicarTema('oscuro');
+    }
 
     if (savedTheme) {
         applyTheme(savedTheme);
@@ -71,10 +71,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// (Opcional) Escuchar cambios en la preferencia del sistema
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    // Solo cambiar si no hay preferencia guardada explícitamente por el usuario
-    if (!localStorage.getItem('theme')) {
-        applyTheme(event.matches ? 'dark' : 'light');
-    }
-});

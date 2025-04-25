@@ -176,6 +176,40 @@ body.modo-oscuro footer {
     background: var(--surface-dark);
 }
 
+/* Animaciones */
+section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tarjeta-proyecto {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+}
+
+.tarjeta-proyecto.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animaciones específicas por sección */
+#sobreMi { transform: translateX(-50px); }
+#habilidades { transform: scale(0.95); }
+#contacto { transform: translateY(50px); }
+
+#sobreMi.visible,
+#habilidades.visible,
+#contacto.visible {
+    transform: none;
+}
+
 /* Nombre en tema claro */
 .nombre {
     color: var(--nombre-claro);

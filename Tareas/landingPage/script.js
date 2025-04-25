@@ -26,6 +26,7 @@ const cambiarTema = () => {
 botonTema.addEventListener('click', cambiarTema);
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Tema
     const temaGuardado = localStorage.getItem('tema');
     const prefiereOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -37,28 +38,35 @@ document.addEventListener('DOMContentLoaded', () => {
         aplicarTema('claro');
     }
 
-    // Scroll Animation Setup with Continuous Intersection
-    const observerOptions = {
+    // Animaciones
+    const opcionesObservador = {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '-20% 0px',
         threshold: 0.1
     };
 
-    const animateOnScroll = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated-section');
-            } else {
-                entry.target.classList.remove('animated-section');
+    const animarAlDesplazar = (entradas, observador) => {
+        entradas.forEach(entrada => {
+            if (entrada.isIntersecting) {
+                entrada.target.classList.add('visible');
+                
+                // Animar tarjetas si es la sección proyectos
+                if (entrada.target.id === 'proyectos') {
+                    const tarjetas = entrada.target.querySelectorAll('.tarjeta-proyecto');
+                    tarjetas.forEach((tarjeta, index) => {
+                        setTimeout(() => {
+                            tarjeta.classList.add('visible');
+                        }, index * 150);
+                    });
+                }
             }
         });
     };
 
-    const sectionObserver = new IntersectionObserver(animateOnScroll, observerOptions);
+    const observador = new IntersectionObserver(animarAlDesplazar, opcionesObservador);
 
-    const sectionsToAnimate = document.querySelectorAll('#about, #projects, #skills, #contact');
-    sectionsToAnimate.forEach(section => {
-        section.classList.add('pre-animate');
-        sectionObserver.observe(section);
+    // Observar todas las secciones
+    document.querySelectorAll('section').forEach(seccion => {
+        observador.observe(seccion);
     });
 });

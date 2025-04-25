@@ -8,12 +8,12 @@ const aplicarTema = (tema) => {
         cuerpo.classList.add('modo-oscuro');
         iconoSol.style.display = 'none';
         iconoLuna.style.display = 'inline';
-        botonTema.setAttribute('aria-label', 'Cambiar a tema claro');
+       
     } else {
         cuerpo.classList.remove('modo-oscuro');
         iconoSol.style.display = 'inline';
         iconoLuna.style.display = 'none';
-        botonTema.setAttribute('aria-label', 'Cambiar a tema oscuro');
+
     }
 };
 
@@ -26,27 +26,15 @@ const cambiarTema = () => {
 botonTema.addEventListener('click', cambiarTema);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Tema
-    const temaGuardado = localStorage.getItem('tema');
-    const prefiereOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (temaGuardado) {
-        aplicarTema(temaGuardado);
-    } else if (prefiereOscuro) {
-        aplicarTema('oscuro');
-    } else {
-        aplicarTema('claro');
-    }
-
-    // Animaciones
     const opcionesObservador = {
-        root: null,
-        rootMargin: '-20% 0px',
-        threshold: 0.1
+        root: null,           // Viewport como raíz
+        rootMargin: '-20% 0px', // Margen de activación
+        threshold: 0.1        // Porcentaje visibilidad
     };
 
     const animarAlDesplazar = (entradas, observador) => {
         entradas.forEach(entrada => {
+            // Añadir o remover clase según visibilidad
             if (entrada.isIntersecting) {
                 entrada.target.classList.add('visible');
                 
@@ -57,6 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => {
                             tarjeta.classList.add('visible');
                         }, index * 150);
+                    });
+                }
+            } else {
+                // Remover clase cuando no está visible
+                entrada.target.classList.remove('visible');
+                
+                // Remover clase de las tarjetas si es la sección proyectos
+                if (entrada.target.id === 'proyectos') {
+                    const tarjetas = entrada.target.querySelectorAll('.tarjeta-proyecto');
+                    tarjetas.forEach(tarjeta => {
+                        tarjeta.classList.remove('visible');
                     });
                 }
             }

@@ -117,22 +117,82 @@ section {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
+/* Estilos para las tarjetas de proyectos */
 .tarjeta-proyecto {
+    position: relative;
+    overflow: hidden;
     background: var(--surface);
-    padding: 1em;
+    padding: 1.5em;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.tarjeta-proyecto h3 {
-    margin-top: 0;
+.tarjeta-imagen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 
+.tarjeta-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.08;
+    transition: opacity 0.3s ease;
+}
+
+.contenido-tarjeta {
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Efectos al hacer hover */
+.tarjeta-proyecto:hover {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.tarjeta-proyecto:hover .tarjeta-imagen img {
+    opacity: 0.8;
+}
+
+.tarjeta-proyecto:hover .contenido-tarjeta {
+    opacity: 0.3;
+}
+
+/* Ajustes para modo oscuro */
+body.modo-oscuro .tarjeta-proyecto:hover .contenido-tarjeta {
+    opacity: 0.4;
+}
+
+body.modo-oscuro .tarjeta-proyecto:hover .tarjeta-imagen img {
+    opacity: 0.6;
+}
+
+/* Asegura que los textos sean legibles */
+.tarjeta-proyecto h3,
+.tarjeta-proyecto p,
 .tarjeta-proyecto a {
-    display: inline-block;
-    margin-right: 1em;
-    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.8);
 }
+
+/* Modo oscuro */
+body.modo-oscuro .tarjeta-proyecto {
+    background: var(--surface-dark);
+}
+
+body.modo-oscuro .tarjeta-proyecto h3,
+body.modo-oscuro .tarjeta-proyecto p,
+body.modo-oscuro .tarjeta-proyecto a {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.8);
+}
+
 /* Contacto */
 .iconos-sociales {
     text-align: center;
